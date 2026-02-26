@@ -43,7 +43,7 @@ export function Header() {
               <Link
                 key={link.label}
                 href={link.href}
-                className={`text-sm tracking-wide transition-colors hover:text-foreground ${
+                className={`text-sm tracking-wide transition-colors ${
                   isActive
                     ? "text-foreground underline underline-offset-4"
                     : "text-muted-foreground"
@@ -82,10 +82,10 @@ export function Header() {
       </div>
       {mobileOpen && (
         <nav
-          className="border-t border-border bg-background px-6 pb-6 pt-4 md:hidden"
+          className="fixed left-0 right-0 top-19 z-50 border-t border-border bg-background px-6 pb-6 pt-4 md:hidden"
           aria-label="Mobile navigation"
         >
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col items-center gap-4">
             {navLinks.map((link) => {
               const isActive = pathname === link.href;
 
@@ -105,15 +105,15 @@ export function Header() {
               );
             })}
           </div>
-          <div className="mt-4 flex items-center gap-4 border-t border-border pt-4">
+          <div className="mt-4 flex items-center justify-center gap-4 border-t border-border pt-4">
             {socialLinks.map((social) => (
               <Link
                 key={social.label}
                 href={social.href}
-                className="text-muted-foreground transition-colors hover:text-foreground"
+                className="text-foreground transition-colors"
                 aria-label={social.label}
               >
-                <social.icon className="h-4.5 w-4.5" strokeWidth={1.5} />
+                <social.icon className="h-6 w-6" strokeWidth={1.5} />
               </Link>
             ))}
           </div>
