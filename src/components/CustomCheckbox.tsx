@@ -59,7 +59,7 @@ export function CustomCheckbox({
         onChange={handleChange}
         />
       <div>
-        <Label htmlFor={name} className="text-xs leading-relaxed text-ink-600">
+        <Label htmlFor={name} className="text-xs leading-relaxed text-white">
           {label}
         </Label>
       </div>

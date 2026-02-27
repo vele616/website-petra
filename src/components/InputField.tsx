@@ -50,7 +50,7 @@ export function InputField({
   if (isTextArea) {
     return (
       <>
-        <Label htmlFor={name} className="text-sm font-medium text-ink-900">
+        <Label htmlFor={name} className="text-sm font-medium text-muted-foreground">
           {label}
           {isRequired && "*"}
         </Label>
@@ -63,7 +63,7 @@ export function InputField({
             required={isRequired}
             onInvalid={handleError}
             onInput={resetError}
-            className="resize-none field-sizing-fixed rounded-xl border-brand-200 bg-brand-50/60 focus-visible:ring-brand-500"
+            className="text-white resize-none field-sizing-fixed rounded-none border-x-0 border-t-0 border-b-white bg-transparent px-0 shadow-none focus-visible:ring-0 focus-visible:border-b-white [-webkit-text-fill-color:white] autofill:bg-transparent autofill:text-white autofill:shadow-[0_0_0px_1000px_#18181b_inset]"
           />
           <div className="h-4 text-sm text-red-500 p-1">{error}</div>
         </div>
@@ -73,13 +73,16 @@ export function InputField({
 
   return (
     <>
-      <Label htmlFor={name} className="text-sm font-medium text-ink-900">
+      <Label
+        htmlFor={name}
+        className="text-sm font-medium text-muted-foreground uppercase"
+      >
         {label}
         {isRequired && "*"}
       </Label>
       <div>
         <Input
-          className="rounded-xl border-brand-200 bg-brand-50/60 focus-visible:ring-brand-500"
+          className="[-webkit-text-fill-color:white] autofill:bg-transparent autofill:text-white autofill:shadow-[0_0_0px_1000px_#18181b_inset] bg-transparent text-white outline-none transition-colors placeholder:text-muted-foreground/50 py-3 px-0 rounded-none border-x-0 border-t-0 border-b-white shadow-none focus-visible:ring-0 focus-visible:border-b-white "
           id={id}
           name={name}
           onInput={resetError}
