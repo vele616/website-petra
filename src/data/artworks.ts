@@ -76,7 +76,7 @@ export const artworks: ArtworkItem[] = [
     aspectRatio: "square",
     width: 700,
     height: 700,
-    tileClass: "col-span-2 row-span-2 sm:col-span-2 sm:row-span-3 lg:col-span-2 lg:row-span-3",
+    tileClass: "col-span-2 row-span-2 sm:col-span-2 sm:row-span-3 lg:col-span-2 lg:row-span-3 lg:translate-y-2",
   },
   {
     src: "/portrait-8.jpg",
