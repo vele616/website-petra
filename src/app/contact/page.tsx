@@ -1,10 +1,10 @@
 "use client";
 
 import { CustomCheckbox } from "@/components/CustomCheckbox";
-import { Header } from "@/components/Header";
 import { InputField } from "@/components/InputField";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
+import { ArrowRight, Send } from "lucide-react";
 import { SubmitEvent, useCallback, useState } from "react";
 import { toast } from "sonner";
 
@@ -51,30 +51,49 @@ export default function Contact() {
   }, []);
 
   return (
-    <section id="contact" className="scroll-mt-20 bg-white py-10 lg:py-12">
-      <Header />
-      <div className="mx-auto max-w-6xl px-6">
-        <div className="grid grid-cols-2 gap-12 lg:grid-cols-2 lg:items-start">
-          <div className="grid-cols-1 col-start-1">
-            <span className="mb-3 block text-xs font-semibold uppercase tracking-[0.25em] text-brand-700">
+    <section id="contact" className="scroll-mt-20 bg-zinc-900 py-10 lg:py-12">
+      <div className="mx-auto max-w-350 px-6 lg:px-10">
+        <div className="h-px bg-border" />
+      </div>
+      <div className="mx-auto max-w-350 px-6 py-20 lg:px-10 lg:py-28">
+        <div className="grid gap-16 lg:grid-cols-2 lg:gap-24">
+          <div className="flex flex-col justify-center">
+            <p className="text-xs font-medium tracking-[0.25em] text-muted-foreground uppercase">
               Get in touch
-            </span>
-            <h2 className="mb-4 font-serif text-3xl leading-[1.12] tracking-[0.01em] text-ink-900 md:text-4xl">
+            </p>
+            <h2 className="mt-4 text-4xl font-bold tracking-tight text-balance text-white lg:text-5xl">
               Let&apos;s work together
             </h2>
+            <p className="mt-6 max-w-md text-base leading-relaxed text-muted-foreground">
+              Interested in commissioning a piece, purchasing prints, or
+              collaborating on a project? I&apos;d love to hear from you. Fill
+              out the form and I&apos;ll get back to you within 48 hours.
+            </p>
+
+            <div className="mt-10 flex items-center gap-4">
+              <div className="h-px flex-1 bg-border" />
+              <span className="text-xs tracking-[0.2em] text-muted-foreground uppercase">
+                or email directly
+              </span>
+              <div className="h-px flex-1 bg-border" />
+            </div>
+            <a
+              href="mailto:"
+              className="group mt-4 flex items-center justify-center gap-2 text-sm font-medium text-white transition-colors hover:text-muted-foreground"
+            >
+              hello@email.com
+              <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+            </a>
           </div>
 
           <div>
-            <form
-              onSubmit={handleSubmit}
-              className="col-start-2 rounded-2xl border border-brand-200 bg-white p-6 shadow-sm md:p-8"
-            >
+            <form onSubmit={handleSubmit} className="col-start-2 p-6 md:p-8">
               <div className="flex flex-col gap-2">
                 <div className="flex flex-col gap-2">
                   <InputField
                     id={"name"}
                     isRequired={true}
-                    label={"Full name"}
+                    label={"Name"}
                     name={"name"}
                     placeholder={"Your full name"}
                   />
@@ -96,9 +115,9 @@ export default function Contact() {
                     id={"message"}
                     isRequired={true}
                     isTextArea={true}
-                    label={"Brief description"}
+                    label={"Message"}
                     name={"message"}
-                    placeholder={"You'r breef description..."}
+                    placeholder={"Tell me about your project..."}
                   />
                 </div>
 
@@ -113,9 +132,21 @@ export default function Contact() {
                   isRequired={true}
                 />
 
-                <Button type="submit">
-                  {isLoading ? <Spinner /> : "Submit"}
-                </Button>
+                <div className="mt-2">
+                  <Button
+                    type="submit"
+                    className="group relative inline-flex items-center gap-3 bg-white px-8 py-4 text-sm font-medium tracking-[0.15em] text-black uppercase hover:text-white disabled:opacity-60 hover:border-white hover:border"
+                  >
+                    {isLoading ? (
+                      <Spinner />
+                    ) : (
+                      <div className="flex gap-3">
+                        <span>Send Message</span>
+                        <Send className="self-center h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                      </div>
+                    )}
+                  </Button>
+                </div>
               </div>
             </form>
           </div>
