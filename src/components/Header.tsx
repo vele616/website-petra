@@ -7,6 +7,7 @@ import { Menu, X } from "lucide-react";
 import { TwitterIcon } from "./icons/TwitterIcon";
 import { InstagramIcon } from "./icons/InstagramIcon";
 import { usePathname } from "next/navigation";
+import { SocialLinks } from "./SocialLinks";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -105,18 +106,7 @@ export function Header() {
               );
             })}
           </div>
-          <div className="mt-4 flex items-center justify-center gap-4 border-t border-border pt-4">
-            {socialLinks.map((social) => (
-              <Link
-                key={social.label}
-                href={social.href}
-                className="text-foreground transition-colors"
-                aria-label={social.label}
-              >
-                <social.icon className="h-6 w-6" strokeWidth={1.5} />
-              </Link>
-            ))}
-          </div>
+          <SocialLinks />
         </nav>
       )}
     </header>
