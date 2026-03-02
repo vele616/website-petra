@@ -824,10 +824,15 @@ function usePositioner(
     prevOptsRef.current = opts;
 
     if (optsChanged) {
-      const cacheSize = prevPositioner.size();
-      for (let index = 0; index < cacheSize; index++) {
-        const pos = prevPositioner.get(index);
-        positioner.set(index, pos !== void 0 ? pos.height : 0);
+      if (
+        prevPositioner.columnCount === positioner.columnCount &&
+        prevPositioner.columnWidth === positioner.columnWidth
+      ) {
+        const cacheSize = prevPositioner.size();
+        for (let index = 0; index < cacheSize; index++) {
+          const pos = prevPositioner.get(index);
+          positioner.set(index, pos !== void 0 ? pos.height : 0);
+        }
       }
     }
 
@@ -936,7 +941,10 @@ function onRafSchedule<T extends unknown[]>(
   return onCallback;
 }
 
-function useResizeObserver(positioner: Positioner, itemMap: WeakMap<Element, number>) {
+function useResizeObserver(
+  positioner: Positioner,
+  itemMap: WeakMap<Element, number>,
+) {
   const [, setLayoutVersion] = React.useState(0);
 
   const resizeObserver = React.useMemo(() => {
@@ -1250,21 +1258,20 @@ function Masonry(props: MasonryProps) {
     fps: scrollFps,
   });
 
-
   const onItemRegister = React.useCallback(
-  (index: number) => (node: ItemElement | null) => {
-    if (!node) return;
+    (index: number) => (node: ItemElement | null) => {
+      if (!node) return;
 
-    itemMap.set(node, index);
+      itemMap.set(node, index);
 
-    resizeObserver?.observe(node);
+      resizeObserver?.observe(node);
 
-    if (positioner.get(index) === void 0) {
-      positioner.set(index, node.offsetHeight);
-    }
-  },
-  [itemMap, positioner, resizeObserver],
-);
+      if (positioner.get(index) === void 0) {
+        positioner.set(index, node.offsetHeight);
+      }
+    },
+    [itemMap, positioner, resizeObserver],
+  );
 
   const contextValue = React.useMemo<MasonryContextValue>(
     () => ({
