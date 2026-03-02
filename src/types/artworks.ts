@@ -5,6 +5,7 @@ export interface ArtworkItem {
   medium: string
   year: string
   aspectRatio: "portrait" | "square" | "landscape"
+  aspectRatioValue?: string
   width: number
   height: number
   tileClass: string
