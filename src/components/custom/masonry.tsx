@@ -824,10 +824,15 @@ function usePositioner(
     prevOptsRef.current = opts;
 
     if (optsChanged) {
-      const cacheSize = prevPositioner.size();
-      for (let index = 0; index < cacheSize; index++) {
-        const pos = prevPositioner.get(index);
-        positioner.set(index, pos !== void 0 ? pos.height : 0);
+      if (
+        prevPositioner.columnCount === positioner.columnCount &&
+        prevPositioner.columnWidth === positioner.columnWidth
+      ) {
+        const cacheSize = prevPositioner.size();
+        for (let index = 0; index < cacheSize; index++) {
+          const pos = prevPositioner.get(index);
+          positioner.set(index, pos !== void 0 ? pos.height : 0);
+        }
       }
     }
 
@@ -919,11 +924,12 @@ function onRafSchedule<T extends unknown[]>(
   function onCallback(...args: T) {
     lastArgs = args;
 
-    if (frameId)
+    if (frameId == null) {
       frameId = requestAnimationFrame(() => {
         frameId = null;
         callback(...lastArgs);
       });
+    }
   }
 
   onCallback.cancel = () => {
@@ -935,82 +941,56 @@ function onRafSchedule<T extends unknown[]>(
   return onCallback;
 }
 
-function useResizeObserver(positioner: Positioner) {
+function useResizeObserver(
+  positioner: Positioner,
+  itemMap: WeakMap<Element, number>,
+) {
   const [, setLayoutVersion] = React.useState(0);
 
-  const createResizeObserver = React.useMemo(() => {
+  const resizeObserver = React.useMemo(() => {
     if (typeof window === "undefined") {
-      return () => ({
+      return {
         disconnect: () => {},
         observe: () => {},
         unobserve: () => {},
-      });
+      } as unknown as ResizeObserver;
     }
 
-    return onDeepMemo(
-      [WeakMap],
-      (positioner: Positioner, onUpdate: () => void) => {
-        const updates: number[] = [];
-        const itemMap = new WeakMap<Element, number>();
+    const updates: number[] = [];
 
-        const update = onRafSchedule(() => {
-          if (updates.length > 0) {
-            positioner.update(updates);
-            onUpdate();
-          }
-          updates.length = 0;
-        });
+    const flush = onRafSchedule(() => {
+      if (updates.length > 0) {
+        positioner.update(updates);
+        setLayoutVersion((v) => v + 1);
+      }
+      updates.length = 0;
+    });
 
-        function onItemResize(target: ItemElement) {
-          const height = target.offsetHeight;
-          if (height > 0) {
-            const index = itemMap.get(target);
-            if (index !== void 0) {
-              const position = positioner.get(index);
-              if (position !== void 0 && height !== position.height) {
-                updates.push(index, height);
-              }
-            }
-          }
-          update();
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const index = itemMap.get(entry.target);
+        if (index === undefined) continue;
+
+        const el = entry.target as HTMLElement;
+        const height = el.offsetHeight;
+        if (height <= 0) continue;
+
+        const pos = positioner.get(index);
+        if (pos && pos.height !== height) {
+          updates.push(index, height);
         }
+      }
+      flush();
+    });
 
-        const scheduledItemMap = new Map<
-          number,
-          OnRafScheduleReturn<[ItemElement]>
-        >();
-        function onResizeObserver(entries: ResizeObserverEntry[]) {
-          for (const entry of entries) {
-            if (!entry) continue;
-            const index = itemMap.get(entry.target);
+    const disconnect = observer.disconnect.bind(observer);
+    observer.disconnect = () => {
+      disconnect();
+      flush.cancel();
+    };
 
-            if (index === void 0) continue;
-            let handler = scheduledItemMap.get(index);
-            if (!handler) {
-              handler = onRafSchedule(onItemResize);
-              scheduledItemMap.set(index, handler);
-            }
-            handler(entry.target as ItemElement);
-          }
-        }
-
-        const observer = new ResizeObserver(onResizeObserver);
-        const disconnect = observer.disconnect.bind(observer);
-        observer.disconnect = () => {
-          disconnect();
-          for (const [, scheduleItem] of scheduledItemMap) {
-            scheduleItem.cancel();
-          }
-        };
-
-        return observer;
-      },
-    );
-  }, []);
-
-  const resizeObserver = createResizeObserver(positioner, () =>
-    setLayoutVersion((prev) => prev + 1),
-  );
+    return observer;
+  }, [positioner, itemMap]);
 
   React.useEffect(() => () => resizeObserver.disconnect(), [resizeObserver]);
 
@@ -1271,22 +1251,21 @@ function Masonry(props: MasonryProps) {
     maxColumnCount,
     linear,
   });
-  const resizeObserver = useResizeObserver(positioner);
+  const itemMap = React.useRef(new WeakMap<ItemElement, number>()).current;
+  const resizeObserver = useResizeObserver(positioner, itemMap);
   const { scrollTop, isScrolling } = useScroller({
     offset: containerPosition.offset,
     fps: scrollFps,
   });
-
-  const itemMap = React.useRef(new WeakMap<ItemElement, number>()).current;
 
   const onItemRegister = React.useCallback(
     (index: number) => (node: ItemElement | null) => {
       if (!node) return;
 
       itemMap.set(node, index);
-      if (resizeObserver) {
-        resizeObserver.observe(node);
-      }
+
+      resizeObserver?.observe(node);
+
       if (positioner.get(index) === void 0) {
         positioner.set(index, node.offsetHeight);
       }

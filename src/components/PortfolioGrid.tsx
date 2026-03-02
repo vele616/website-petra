@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { X } from "lucide-react";
-import { Masonry, MasonryItem } from "@/components/ui/masonry";
+import { Masonry, MasonryItem } from "@/components/custom/masonry";
 import { artworks } from "@/data/artworks";
 import type { ArtworkItem } from "@/types/artworks";
 
