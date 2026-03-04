@@ -20,8 +20,8 @@ export const metadata: Metadata = {
   description:
     "Black Vomit is a contemporary artist presenting a curated portfolio of original works and visual explorations.",
   icons: {
-    icon: "/logo2.png",
-    apple: "/logo2.png",
+    icon: "/favicon.ico",
+    apple: "/favicon.ico",
   },
 };
 

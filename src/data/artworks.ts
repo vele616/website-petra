@@ -2,7 +2,7 @@ import { ArtworkItem } from "../types/artworks";
 
 export const artworks: ArtworkItem[] = [
   {
-    src: "/images/behind-the-walls.jpg",
+    src: "/images/behind-the-walls.webp",
     alt: "Behind The Walls",
     title: "Behind The Walls",
     medium: "Digital painting",
@@ -13,7 +13,7 @@ export const artworks: ArtworkItem[] = [
     height: 1024,
   },
   {
-    src: "/images/dissolution.jpg",
+    src: "/images/dissolution.webp",
     alt: "dissolution",
     title: "dissolution",
     medium: "Digital painting",
@@ -24,7 +24,7 @@ export const artworks: ArtworkItem[] = [
     height: 1024,
   },
   {
-    src: "/images/dissolve.jpg",
+    src: "/images/dissolve.webp",
     alt: "dissolve",
     title: "dissolve",
     medium: "Digital painting",
@@ -35,7 +35,7 @@ export const artworks: ArtworkItem[] = [
     height: 1024,
   },
   {
-    src: "/images/dive-the-deepest-abyss.jpg",
+    src: "/images/dive-the-deepest-abyss.webp",
     alt: "Dive the Deepest Abyss",
     title: "Dive the Deepest Abyss",
     medium: "Digital painting",
@@ -46,7 +46,7 @@ export const artworks: ArtworkItem[] = [
     height: 1024,
   },
   {
-    src: "/images/frail.jpg",
+    src: "/images/frail.webp",
     alt: "frail",
     title: "frail",
     medium: "Digital painting",
@@ -57,7 +57,7 @@ export const artworks: ArtworkItem[] = [
     height: 1024,
   },
   {
-    src: "/images/hangman's-resolution.jpg",
+    src: "/images/hangman's-resolution.webp",
     alt: "Hangman's Resolution",
     title: "Hangman's Resolution",
     medium: "Digital painting",
@@ -68,7 +68,7 @@ export const artworks: ArtworkItem[] = [
     height: 1024,
   },
   {
-    src: "/images/hypoxia.jpg",
+    src: "/images/hypoxia.webp",
     alt: "hypoxia",
     title: "hypoxia",
     medium: "Digital painting",
@@ -79,7 +79,7 @@ export const artworks: ArtworkItem[] = [
     height: 1024,
   },
   {
-    src: "/images/laceration.jpg",
+    src: "/images/laceration.webp",
     alt: "laceration",
     title: "laceration",
     medium: "Digital painting",
@@ -90,7 +90,7 @@ export const artworks: ArtworkItem[] = [
     height: 1024,
   },
   {
-    src: "/images/lights-out.jpg",
+    src: "/images/lights-out.webp",
     alt: "Lights Out",
     title: "Lights Out",
     medium: "Digital painting",
@@ -101,7 +101,7 @@ export const artworks: ArtworkItem[] = [
     height: 1024,
   },
   {
-    src: "/images/remnant.jpg",
+    src: "/images/remnant.webp",
     alt: "remnant",
     title: "remnant",
     medium: "Digital painting",
@@ -112,7 +112,7 @@ export const artworks: ArtworkItem[] = [
     height: 1024,
   },
   {
-    src: "/images/scorched.jpg",
+    src: "/images/scorched.webp",
     alt: "scorched",
     title: "scorched",
     medium: "Digital painting",
@@ -123,7 +123,7 @@ export const artworks: ArtworkItem[] = [
     height: 1024,
   },
   {
-    src: "/images/sepulchral-murmurs.jpg",
+    src: "/images/sepulchral-murmurs.webp",
     alt: "Sepulchral Murmurs",
     title: "Sepulchral Murmurs",
     medium: "Digital painting",
@@ -134,7 +134,7 @@ export const artworks: ArtworkItem[] = [
     height: 1024,
   },
   {
-    src: "/images/sunken.jpg",
+    src: "/images/sunken.webp",
     alt: "sunken",
     title: "sunken",
     medium: "Digital painting",
@@ -145,7 +145,7 @@ export const artworks: ArtworkItem[] = [
     height: 1024,
   },
   {
-    src: "/images/tattered-01.jpg",
+    src: "/images/tattered-01.webp",
     alt: "tattered #01",
     title: "tattered #01",
     medium: "Digital painting",
@@ -156,7 +156,7 @@ export const artworks: ArtworkItem[] = [
     height: 1024,
   },
   {
-    src: "/images/tattered-03.jpg",
+    src: "/images/tattered-03.webp",
     alt: "tattered #03",
     title: "tattered #03",
     medium: "Digital painting",
@@ -167,7 +167,7 @@ export const artworks: ArtworkItem[] = [
     height: 1024,
   },
   {
-    src: "/images/tattered-04.jpg",
+    src: "/images/tattered-04.webp",
     alt: "tattered #04",
     title: "tattered #04",
     medium: "Digital painting",
@@ -178,7 +178,7 @@ export const artworks: ArtworkItem[] = [
     height: 1024,
   },
   {
-    src: "/images/tattered-05.jpg",
+    src: "/images/tattered-05.webp",
     alt: "tattered #05",
     title: "tattered #05",
     medium: "Digital painting",
@@ -189,7 +189,7 @@ export const artworks: ArtworkItem[] = [
     height: 1024,
   },
   {
-    src: "/images/tattered-06.jpg",
+    src: "/images/tattered-06.webp",
     alt: "tattered #06",
     title: "tattered #06",
     medium: "Digital painting",
@@ -200,7 +200,7 @@ export const artworks: ArtworkItem[] = [
     height: 1024,
   },
   {
-    src: "/images/the-first-pestilence-of-inevitable-decay.jpg",
+    src: "/images/the-first-pestilence-of-inevitable-decay.webp",
     alt: "The First Pestilence of Inevitable Decay",
     title: "The First Pestilence of Inevitable Decay",
     medium: "Digital painting",
@@ -211,7 +211,7 @@ export const artworks: ArtworkItem[] = [
     height: 1024,
   },
   {
-    src: "/images/the-second-retaliation-of-the-son-of-dawn.jpg",
+    src: "/images/the-second-retaliation-of-the-son-of-dawn.webp",
     alt: "The Second Retaliation of the Son of Dawn",
     title: "The Second Retaliation of the Son of Dawn",
     medium: "Digital painting",
@@ -222,7 +222,7 @@ export const artworks: ArtworkItem[] = [
     height: 1024,
   },
   {
-    src: "/images/three-festering-curses-of-ageless-damnation.jpg",
+    src: "/images/three-festering-curses-of-ageless-damnation.webp",
     alt: "Three Festering Curses of Ageless Damnation",
     title: "Three Festering Curses of Ageless Damnation",
     medium: "Digital painting",
@@ -233,7 +233,7 @@ export const artworks: ArtworkItem[] = [
     height: 1024,
   },
   {
-    src: "/images/unearthly-doom-manifest.jpg",
+    src: "/images/unearthly-doom-manifest.webp",
     alt: "Unearthly Doom Manifest",
     title: "Unearthly Doom Manifest",
     medium: "Digital painting",
@@ -244,7 +244,7 @@ export const artworks: ArtworkItem[] = [
     height: 1024,
   },
   {
-    src: "/images/untitled-II.jpg",
+    src: "/images/untitled-II.webp",
     alt: "Untitled II",
     title: "Untitled II",
     medium: "Digital painting",
@@ -255,7 +255,7 @@ export const artworks: ArtworkItem[] = [
     height: 1024,
   },
   {
-    src: "/images/vanished.jpg",
+    src: "/images/vanished.webp",
     alt: "vanished",
     title: "vanished",
     medium: "Digital painting",
@@ -266,7 +266,7 @@ export const artworks: ArtworkItem[] = [
     height: 1024,
   },
   {
-    src: "/images/weaver-of-midnight-spells.jpg",
+    src: "/images/weaver-of-midnight-spells.webp",
     alt: "Weaver of Midnight Spells",
     title: "Weaver of Midnight Spells",
     medium: "Digital painting",
@@ -277,7 +277,7 @@ export const artworks: ArtworkItem[] = [
     height: 1024,
   },
   {
-    src: "/images/whispers-of-the-well.jpg",
+    src: "/images/whispers-of-the-well.webp",
     alt: "Whispers of the Well",
     title: "Whispers of the Well",
     medium: "Digital painting",
@@ -288,7 +288,7 @@ export const artworks: ArtworkItem[] = [
     height: 1024,
   },
   {
-    src: "/images/wither.jpg",
+    src: "/images/wither.webp",
     alt: "wither",
     title: "wither",
     medium: "Digital painting",
@@ -299,7 +299,7 @@ export const artworks: ArtworkItem[] = [
     height: 1024,
   },
   {
-    src: "/images/wraith.jpg",
+    src: "/images/wraith.webp",
     alt: "Wraith",
     title: "Wraith",
     medium: "Digital painting",
@@ -310,7 +310,7 @@ export const artworks: ArtworkItem[] = [
     height: 1024,
   },
   {
-    src: "/images/wrath.jpg",
+    src: "/images/wrath.webp",
     alt: "Wrath",
     title: "Wrath",
     medium: "Digital painting",

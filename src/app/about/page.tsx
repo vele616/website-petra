@@ -7,7 +7,7 @@ export default function Home() {
         <div className="w-full">
           <div className="flex justify-center px-4 pb-3">
             <Image
-              src="/logo.png"
+              src="/logo.webp"
               alt="Black Vomit logo"
               width={624}
               height={624}
@@ -25,7 +25,7 @@ export default function Home() {
         <div className="flex items-start justify-center">
           <div className="relative aspect-3/4 w-full max-w-md overflow-hidden rounded-3xl shadow-sm">
             <Image
-              src="/aboutme.jpg"
+              src="/aboutme.webp"
               alt="artist"
               fill
               priority

@@ -30,7 +30,7 @@ export default function Home() {
 
 Invariants
 - App routing uses App Router files under `src/app/`.
-- Root metadata title is `Black Vomit`; favicon sources are `/logo2.png` metadata icons plus `src/app/favicon.ico` generated from that logo.
+- Root metadata title is `Black Vomit`; favicon and apple-touch metadata icons both point to `/favicon.ico`.
 - Page composition currently happens in `src/app/page.tsx` (not in root layout).
 - Header is fixed to the top and controls mobile navigation open/close state locally.
 - Footer renders social icon links and a 2026 copyright line.
