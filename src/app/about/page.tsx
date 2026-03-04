@@ -16,8 +16,8 @@ export default function Home() {
             />
           </div>
           <p className="text-base leading-relaxed p-4 text-foreground">
-            I am a Croatian artist with a background in art history and
-            philosophy, working in both digital and traditional media. I create
+            Black Vomit is a Croatian artist with a background in art history and
+            philosophy, working in both digital and traditional media. She creates
             dark, atmospheric work influenced by horror cinema and extreme metal
             music.
           </p>

@@ -18,7 +18,7 @@ graph LR
 <div id="about" className="scroll-mt-20 bg-background py-10 lg:py-12">
   <div className="grid gap-14 lg:grid-cols-2 lg:items-start">
     <Image src="/logo.png" alt="Black Vomit logo" width={180} height={180} />
-    <p>I am a Croatian artist...</p>
+    <p>Black Vomit is a Croatian artist...</p>
     <Image src="/aboutme.jpg" alt="artist" fill priority />
   </div>
 </div>
