@@ -1,40 +1,154 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { X } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import Lightbox from "yet-another-react-lightbox";
+import type { SlideImage } from "yet-another-react-lightbox";
 import { Masonry, MasonryItem } from "@/components/custom/masonry";
 import { artworks } from "@/data/artworks";
-import type { ArtworkItem } from "@/types/artworks";
-import { FocusTrap } from "focus-trap-react";
+
+interface ArtworkSlide extends SlideImage {
+  title: string;
+  medium: string;
+  year: string;
+}
+
+function LightboxMetadata({
+  title,
+  medium,
+  year,
+  delayMs,
+  className,
+}: {
+  title: string;
+  medium: string;
+  year: string;
+  delayMs: number;
+  className?: string;
+}) {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setIsVisible(true);
+    }, delayMs);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [delayMs, title, medium, year]);
+
+  return (
+    <div
+      className={`text-center transition-opacity duration-[1000ms] ease-out md:text-left ${className ?? ""} ${isVisible ? "opacity-100" : "opacity-0"}`}
+    >
+      <h2 className="text-xl font-medium text-white">{title}</h2>
+      <p className="mt-1 text-sm text-white/60">{medium}</p>
+      <p className="mt-0.5 text-sm text-white/60">{year}</p>
+    </div>
+  );
+}
 
 export function PortfolioGrid() {
-  const [selectedArtwork, setSelectedArtwork] = useState<ArtworkItem | null>(
-    null,
-  );
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const swipeTransitionDurationMs = 650;
+  const metadataFadeBufferMs = 100;
 
   const portraitFallbacks = ["4 / 5", "3 / 4", "5 / 7"];
   const squareFallbacks = ["1 / 1", "6 / 7"];
   const landscapeFallbacks = ["7 / 5", "3 / 2"];
 
-  useEffect(() => {
-    document.body.style.overflow = selectedArtwork ? "hidden" : ""
-  }, [selectedArtwork])
+  const slides: ArtworkSlide[] = useMemo(
+    () =>
+      artworks.map((artwork) => ({
+        src: artwork.src,
+        alt: artwork.alt,
+        width: artwork.width,
+        height: artwork.height,
+        title: artwork.title,
+        medium: artwork.medium,
+        year: artwork.year,
+      })),
+    [],
+  );
+
+  const closeLightbox = () => {
+    setSelectedIndex(null);
+  };
 
   useEffect(() => {
-    if (!selectedArtwork) {
+    if (selectedIndex === null) {
       return;
     }
-    
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setSelectedArtwork(null);
+
+    const getTabOrderButtons = () => {
+      const closeButton = document.querySelector<HTMLButtonElement>(
+        '.yarl__button[aria-label="Close"]',
+      );
+      const previousButton = document.querySelector<HTMLButtonElement>(
+        '.yarl__button[aria-label="Previous"]',
+      );
+      const nextButton = document.querySelector<HTMLButtonElement>(
+        '.yarl__button[aria-label="Next"]',
+      );
+
+      const candidates = [closeButton, previousButton, nextButton].filter(
+        (button): button is HTMLButtonElement =>
+          button !== null && !button.disabled && button.offsetParent !== null,
+      );
+
+      for (const button of candidates) {
+        button.tabIndex = 0;
       }
+
+      return candidates;
     };
 
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [selectedArtwork]);
+    const keydownHandler = (event: KeyboardEvent) => {
+      if (event.key !== "Tab") {
+        return;
+      }
+
+      const portal = document.querySelector<HTMLElement>(".yarl__portal_open");
+
+      if (!portal) {
+        return;
+      }
+
+      const tabOrderButtons = getTabOrderButtons().filter((button) =>
+        portal.contains(button),
+      );
+
+      if (tabOrderButtons.length === 0) {
+        return;
+      }
+
+      event.preventDefault();
+
+      const active = document.activeElement as HTMLElement | null;
+      const activeIndex = tabOrderButtons.findIndex((button) => button === active);
+
+      if (activeIndex === -1) {
+        const initialTarget = event.shiftKey
+          ? tabOrderButtons[tabOrderButtons.length - 1]
+          : tabOrderButtons[0];
+        initialTarget.focus();
+        return;
+      }
+
+      const nextIndex = event.shiftKey
+        ? (activeIndex - 1 + tabOrderButtons.length) % tabOrderButtons.length
+        : (activeIndex + 1) % tabOrderButtons.length;
+
+      tabOrderButtons[nextIndex]?.focus();
+    };
+
+    document.addEventListener("keydown", keydownHandler, true);
+
+    return () => {
+      document.removeEventListener("keydown", keydownHandler, true);
+    };
+  }, [selectedIndex]);
 
   return (
     <>
@@ -66,7 +180,7 @@ export function PortfolioGrid() {
                     <button
                       className="group relative w-full cursor-pointer overflow-hidden rounded-2xl border border-border/70 bg-card shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg"
                       style={{ aspectRatio }}
-                      onClick={() => setSelectedArtwork(artwork)}
+                      onClick={() => setSelectedIndex(index)}
                       aria-label={`View ${artwork.title}`}
                     >
                       <Image
@@ -97,51 +211,69 @@ export function PortfolioGrid() {
           </div>
         </div>
       </section>
-      {selectedArtwork && (
-        <FocusTrap>
-          <div
-            className="fixed inset-0 z-100 flex items-center justify-center bg-black/90 p-4 backdrop-blur-sm"
-            onClick={() => setSelectedArtwork(null)}
-            role="dialog"
-            aria-modal="true"
-            aria-label={`Artwork: ${selectedArtwork.title}`}
-          >
-            <button
-              className="absolute right-4 top-4 z-10 text-white/70 transition-colors hover:text-white"
-              onClick={() => setSelectedArtwork(null)}
-              aria-label="Close lightbox"
-            >
-              <X className="h-7 w-7" />
-            </button>
-            <div
-              className="flex max-h-[90vh] max-w-5xl flex-col items-center gap-6 md:flex-row"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="relative max-h-[75vh] flex-1 overflow-hidden">
-                <Image
-                  src={selectedArtwork.src}
-                  alt={selectedArtwork.alt}
-                  width={900}
-                  height={1200}
-                  className="max-h-[75vh] w-auto object-contain"
-                  sizes="90vw"
-                />
+      <Lightbox
+        open={selectedIndex !== null}
+        index={selectedIndex ?? 0}
+        close={closeLightbox}
+        slides={slides}
+        styles={{
+          container: {
+            backgroundColor: "rgba(0, 0, 0, 0.9)",
+            backdropFilter: "blur(4px)",
+            WebkitBackdropFilter: "blur(4px)",
+          },
+          button: {
+            padding: "4px",
+          },
+        }}
+        render={{
+          slide: ({ slide, offset }) => {
+            const artworkSlide = slide as ArtworkSlide;
+
+            return (
+              <div className="flex h-full w-full items-center justify-center px-4">
+                <div className="flex max-h-[90vh] max-w-5xl flex-col items-center gap-6 md:flex-row">
+                  <div className="relative max-h-[75vh] overflow-hidden">
+                    <Image
+                      src={artworkSlide.src}
+                      alt={artworkSlide.alt ?? ""}
+                      width={artworkSlide.width ?? 1200}
+                      height={artworkSlide.height ?? 1200}
+                      className="max-h-[75vh] w-auto max-w-full object-contain"
+                      sizes="90vw"
+                    />
+                  </div>
+                  <div className="w-full shrink-0 md:w-52">
+                    {offset === 0 ? (
+                      <LightboxMetadata
+                        key={`${artworkSlide.src}-${selectedIndex ?? -1}`}
+                        title={artworkSlide.title}
+                        medium={artworkSlide.medium}
+                        year={artworkSlide.year}
+                        delayMs={swipeTransitionDurationMs + metadataFadeBufferMs}
+                        className="w-full"
+                      />
+                    ) : (
+                      <div className="invisible w-full text-center md:text-left" aria-hidden="true">
+                        <h2 className="text-xl font-medium">{artworkSlide.title}</h2>
+                        <p className="mt-1 text-sm">{artworkSlide.medium}</p>
+                        <p className="mt-0.5 text-sm">{artworkSlide.year}</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
               </div>
-              <div className="shrink-0 text-center md:w-52 md:text-left">
-                <h2 className="text-xl font-medium text-white">
-                  {selectedArtwork.title}
-                </h2>
-                <p className="mt-1 text-sm text-white/60">
-                  {selectedArtwork.medium}
-                </p>
-                <p className="mt-0.5 text-sm text-white/60">
-                  {selectedArtwork.year}
-                </p>
-              </div>
-            </div>
-          </div>
-        </FocusTrap>
-      )}
+            );
+          },
+        }}
+        animation={{ swipe: swipeTransitionDurationMs }}
+        carousel={{ finite: false }}
+        on={{
+          view: ({ index }) => {
+            setSelectedIndex((current) => (current === index ? current : index));
+          },
+        }}
+      />
     </>
   );
 }
