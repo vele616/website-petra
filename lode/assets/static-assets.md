@@ -9,7 +9,7 @@ Related
 
 ```mermaid
 graph TD
-  Public["public/"] --> Images["public/images/*.jpg"]
+  Public["public/"] --> Images["public/images/*.webp"]
   Public --> Icons["public/icons/*.svg"]
   Public --> Logo["public/logo.png"]
   Public --> Logo2["public/logo2.png"]
@@ -22,7 +22,7 @@ graph TD
 
 ```ts
 {
-  src: "/images/behind-the-walls.jpg",
+  src: "/images/behind-the-walls.webp",
   title: "Behind The Walls",
   aspectRatio: "portrait"
 }
@@ -33,11 +33,11 @@ Contracts
 - Social icon wrappers (`InstagramIcon`, `TwitterIcon`) read SVGs from `public/icons/`.
 
 Invariants
-- Artworks are `.jpg` files under `public/images/`.
+- Artworks are `.webp` files under `public/images/`.
 - About route portrait uses `/aboutme.jpg`.
 - About route also uses `/logo.png` above biography copy.
-- Metadata icons in `src/app/layout.tsx` use `/logo2.png` as favicon/apple icon.
-- `src/app/favicon.ico` exists and is generated from `/public/logo2.png` for browser favicon compatibility.
+- Metadata icons in `src/app/layout.tsx` use `/favicon.ico` for both favicon and apple icon entries.
+- `src/app/favicon.ico` exists and is the canonical icon file for browser/favicon metadata.
 - Unused default Next starter assets (`next.svg`, `vercel.svg`, etc.) still exist in `public/`.
 
 Rationale
