@@ -21,6 +21,7 @@ Domains
   - [Portfolio Grid](ui/portfolio-grid.md)
   - [Lightbox](ui/lightbox.md)
   - [About Page](ui/about-page.md)
+  - [Privacy Policy Page](ui/privacy-policy-page.md)
 - Data
   - [Artworks Catalog](data/artworks-catalog.md)
 - Components
@@ -49,6 +50,7 @@ graph TD
   LodeMap --> PortfolioGrid["ui/portfolio-grid.md"]
   LodeMap --> Lightbox["ui/lightbox.md"]
   LodeMap --> AboutPage["ui/about-page.md"]
+  LodeMap --> PrivacyPolicyPage["ui/privacy-policy-page.md"]
   LodeMap --> Data["data/artworks-catalog.md"]
   LodeMap --> Masonry["components/masonry-engine.md"]
   LodeMap --> SharedUI["components/shared-ui-primitives.md"]

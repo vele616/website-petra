@@ -1,6 +1,6 @@
 # UI Summary
 
-The UI is a dark-themed portfolio experience with persistent header/footer chrome, a masonry artwork grid on `/`, and an artist biography section on `/about`; navigation is route-based (not in-page anchors), social/contact entry points are icon-only links reused across both header and footer, and artwork preview uses `yet-another-react-lightbox` for swipe-friendly fullscreen browsing.
+The UI is a dark-themed portfolio experience with persistent header/footer chrome, a masonry artwork grid on `/`, an artist biography section on `/propaganda`, and a legal copy page on `/privacy-policy`; navigation is route-based (not in-page anchors), social/contact entry points are icon-only links reused across header and footer, and artwork preview uses `yet-another-react-lightbox` for swipe-friendly fullscreen browsing.
 
 Related
 - [../summary.md](../summary.md)
@@ -10,13 +10,15 @@ Related
 - [portfolio-grid.md](portfolio-grid.md)
 - [lightbox.md](lightbox.md)
 - [about-page.md](about-page.md)
+- [privacy-policy-page.md](privacy-policy-page.md)
 
 ```mermaid
 graph TD
   Layout["src/app/layout.tsx"] --> Header["src/components/Header.tsx"]
   Layout --> Footer["src/components/Footer.tsx"]
   Home["src/app/page.tsx"] --> PortfolioGrid["src/components/PortfolioGrid.tsx"]
-  About["src/app/about/page.tsx"] --> AboutImage["/aboutme.jpg"]
+  About["src/app/propaganda/page.tsx"] --> AboutImage["/aboutme.webp"]
+  Privacy["src/app/privacy-policy/page.tsx"] --> LegalCopy["Policy sections 1-6"]
   Header --> DesktopNav["md:flex route links"]
   Header --> MobileNav["md:hidden toggle + overlay nav"]
 ```
@@ -35,4 +37,4 @@ Invariants
 - Desktop nav links are visible from `md` and up; mobile nav is a toggleable fixed panel.
 - Home route always renders artwork cards via `artworks.map(...)`.
 - Artwork click opens `yet-another-react-lightbox` with looped previous/next navigation and touch swipe support.
-- Footer always renders social icons and ownership text.
+- Footer always renders social icons, a privacy policy route link, and ownership text.
