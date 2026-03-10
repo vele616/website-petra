@@ -51,7 +51,7 @@ export default function Contact() {
   }, []);
 
   return (
-    <section id="contact" className="scroll-mt-20 bg-zinc-900 py-10 lg:py-12">
+    <section id="contact" className="scroll-mt-20 bg-background py-10 lg:py-12">
       <div className="mx-auto max-w-350 px-6 lg:px-10">
         <div className="h-px bg-border" />
       </div>
@@ -78,10 +78,10 @@ export default function Contact() {
               <div className="h-px flex-1 bg-border" />
             </div>
             <a
-              href="mailto:"
+              href="mailto:bv.design@hotmail.com"
               className="group mt-4 flex items-center justify-center gap-2 text-sm font-medium text-white transition-colors hover:text-muted-foreground"
             >
-              hello@email.com
+              bv.design@hotmail.com
               <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
             </a>
           </div>
