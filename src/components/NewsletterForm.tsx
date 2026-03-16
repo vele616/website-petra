@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type SyntheticEvent } from "react";
+import { useEffect, useState, type SyntheticEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 
@@ -84,14 +84,26 @@ export function NewsletterForm() {
     }
   }
 
+  useEffect(() => {
+    if (status !== "success" || !message) {
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setStatus("idle");
+      setMessage("");
+    }, 10000);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [status, message]);
+
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-md space-y-4">
-      <div className="space-y-1">
-        <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">
+      <div className="space-y-1 text-center">
+        <p className="translate-x-[3px] text-sm uppercase tracking-[0.35em] text-muted-foreground">
           Newsletter
-        </p>
-        <p className="text-sm text-muted-foreground">
-          Quiet updates from the studio.
         </p>
       </div>
 
@@ -123,15 +135,15 @@ export function NewsletterForm() {
 
       <label
         htmlFor="newsletter-consent"
-        className="flex items-start gap-2 text-xs text-muted-foreground"
+        className="flex w-full items-center justify-center gap-2 text-xs text-muted-foreground"
       >
         <Checkbox
           id="newsletter-consent"
           checked={consent}
           onCheckedChange={handleConsentChange}
-          className="mt-0.5 h-4 w-4 rounded border-border/70 data-[state=checked]:bg-foreground data-[state=checked]:text-background"
+          className="h-4 w-4 rounded border-border/70 data-[state=checked]:bg-foreground data-[state=checked]:text-background"
         />
-        <span>I agree to receive newsletter emails.</span>
+        <span>Send me newsletters and occasional updates.</span>
       </label>
 
       {message ? (
