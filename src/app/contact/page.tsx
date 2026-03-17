@@ -10,15 +10,25 @@ import { toast } from "sonner";
 export default function Contact() {
   const [agreed, setAgreed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [consentError, setConsentError] = useState("");
+
+  const handleAgreedChange = useCallback((value: boolean) => {
+    setAgreed(value);
+    if (consentError) {
+      setConsentError("");
+    }
+  }, [consentError]);
 
   const handleSubmit = useCallback(async (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!agreed) {
-      toast.error("Consent required.", {
-        description: "Please confirm consent before submitting the form.",
-      });
+      setConsentError("This field is required.");
       return;
+    }
+
+    if (consentError) {
+      setConsentError("");
     }
 
     setIsLoading(true);
@@ -46,6 +56,7 @@ export default function Contact() {
       });
       form.reset();
       setAgreed(false);
+      setConsentError("");
     } catch (error) {
       console.error("ERROR", error);
       toast.error("An error occurred.", {
@@ -55,7 +66,7 @@ export default function Contact() {
     } finally {
       setIsLoading(false);
     }
-  }, [agreed]);
+  }, [agreed, consentError]);
 
   return (
     <section id="contact" className="scroll-mt-20 bg-background py-10 lg:py-12">
@@ -123,7 +134,7 @@ export default function Contact() {
                 </div>
 
                 <CustomCheckbox
-                  setAgreed={setAgreed}
+                  setAgreed={handleAgreedChange}
                   agreed={agreed}
                   label={
                     "I consent to the processing of personal data for the purpose of responding to my inquiry."
@@ -131,7 +142,14 @@ export default function Contact() {
                   id="consent"
                 />
 
-                <div className="mt-2">
+                <p
+                  aria-live="polite"
+                  className="-mt-1 h-4 text-left text-sm text-red-500"
+                >
+                  {consentError || "\u00A0"}
+                </p>
+
+                <div>
                   <Button
                     type="submit"
                     variant="outline"

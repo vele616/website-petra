@@ -6,6 +6,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 type SubmitStatus = "idle" | "loading" | "success" | "error";
 
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 export function NewsletterForm() {
   const [email, setEmail] = useState("");
   const [consent, setConsent] = useState(false);
@@ -21,7 +23,13 @@ export function NewsletterForm() {
 
     if (!normalizedEmail) {
       setStatus("error");
-      setMessage("Email is required.");
+      setMessage("This field is required.");
+      return;
+    }
+
+    if (!EMAIL_PATTERN.test(normalizedEmail)) {
+      setStatus("error");
+      setMessage("Please enter a valid email address.");
       return;
     }
 
@@ -100,29 +108,44 @@ export function NewsletterForm() {
   }, [status, message]);
 
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-md space-y-4">
-      <div className="space-y-1 text-center">
-        <p className="translate-x-[3px] text-sm uppercase tracking-[0.35em] text-muted-foreground">
+    <form noValidate onSubmit={handleSubmit} className="w-full max-w-md space-y-3">
+      <div className="space-y-1 text-left">
+        <p className="text-sm uppercase tracking-[0.35em] text-muted-foreground">
           Newsletter
         </p>
       </div>
 
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-        <label htmlFor="email" className="sr-only">
-          Email
-        </label>
-        <input
-          id="email"
-          type="email"
-          name="email"
-          placeholder="Email address"
-          value={email}
-          onChange={(e) => handleEmailChange(e.target.value)}
-          required
-          autoComplete="email"
-          disabled={status === "loading"}
-          className="h-11 w-full rounded-full border border-border/70 bg-transparent px-4 text-sm text-foreground placeholder:text-muted-foreground outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:opacity-60 sm:flex-1"
-        />
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-start">
+        <div className="w-full sm:flex-1">
+          <label htmlFor="email" className="sr-only">
+            Email
+          </label>
+          <input
+            id="email"
+            type="email"
+            name="email"
+            placeholder="Email address"
+            value={email}
+            onChange={(e) => handleEmailChange(e.target.value)}
+            required
+            autoComplete="email"
+            disabled={status === "loading"}
+            className="h-11 w-full rounded-full border border-border/70 bg-transparent px-4 text-sm text-foreground placeholder:text-muted-foreground outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:opacity-60"
+          />
+          <p
+            role="status"
+            aria-live="polite"
+            className={`min-h-4 px-1 pt-0.5 text-left text-xs ${
+              status === "error"
+                ? "text-red-500"
+                : status === "success"
+                  ? "text-muted-foreground"
+                  : "text-transparent"
+            }`}
+          >
+            {message || "\u00A0"}
+          </p>
+        </div>
         <Button
           type="submit"
           variant="outline"
@@ -135,7 +158,7 @@ export function NewsletterForm() {
 
       <label
         htmlFor="newsletter-consent"
-        className="flex w-full items-center justify-center gap-2 text-xs text-muted-foreground"
+        className="-mt-2 flex w-full items-center justify-start gap-2 text-xs text-muted-foreground"
       >
         <Checkbox
           id="newsletter-consent"
@@ -145,17 +168,6 @@ export function NewsletterForm() {
         />
         <span>Send me newsletters and occasional updates.</span>
       </label>
-
-      {message ? (
-        <p
-          role="status"
-          className={`text-xs ${
-            status === "success" ? "text-muted-foreground" : "text-destructive"
-          }`}
-        >
-          {message}
-        </p>
-      ) : null}
     </form>
   );
 }
