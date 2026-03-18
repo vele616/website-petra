@@ -96,6 +96,7 @@ export default function Contact() {
                     label={"Name"}
                     name={"name"}
                     placeholder={"Your full name"}
+                    className="py-3 px-0 rounded-none border-x-0 border-t-0 border-b-white shadow-none focus-visible:border-b-white"
                   />
                 </div>
 
@@ -107,6 +108,7 @@ export default function Contact() {
                     name={"email"}
                     placeholder={"your@email.com"}
                     type={"email"}
+                    className="py-3 px-0 rounded-none border-x-0 border-t-0 border-b-white shadow-none focus-visible:border-b-white"
                   />
                 </div>
 
@@ -118,6 +120,7 @@ export default function Contact() {
                     label={"Message"}
                     name={"message"}
                     placeholder={"Tell me about your project..."}
+                    className="py-3 px-0 rounded-none border-x-0 border-t-0 border-b-white shadow-none focus-visible:border-b-white"
                   />
                 </div>
 

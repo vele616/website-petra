@@ -3,6 +3,7 @@
 import { useState, type SyntheticEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { InputField } from "./InputField";
 
 type SubmitStatus = "idle" | "loading" | "success" | "error";
 
@@ -61,7 +62,7 @@ export function NewsletterForm() {
     } catch (error) {
       setStatus("error");
       setMessage(
-        error instanceof Error ? error.message : "Failed to subscribe."
+        error instanceof Error ? error.message : "Failed to subscribe.",
       );
     }
   }
@@ -99,17 +100,12 @@ export function NewsletterForm() {
         <label htmlFor="email" className="sr-only">
           Email
         </label>
-        <input
+        <InputField
           id="email"
-          type="email"
           name="email"
           placeholder="Email address"
-          value={email}
-          onChange={(e) => handleEmailChange(e.target.value)}
-          required
-          autoComplete="email"
-          disabled={status === "loading"}
-          className="h-11 w-full rounded-full border border-border/70 bg-transparent px-4 text-sm text-foreground placeholder:text-muted-foreground outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:opacity-60 sm:flex-1"
+          isRequired={true}
+          className="h-11 w-full rounded-full border border-border/70 bg-transparent px-4 text-sm text-foreground placeholder:text-muted-foreground outline-none disabled:opacity-60 focus-visible:outline-none focus-visible:ring-0"
         />
         <Button
           type="submit"
