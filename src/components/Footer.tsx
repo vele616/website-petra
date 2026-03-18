@@ -10,14 +10,14 @@ export function Footer() {
           <NewsletterForm />
         </div>
 
-        <div className="flex w-full max-w-md flex-col items-start gap-6 lg:ml-auto lg:self-stretch lg:items-end lg:justify-between lg:gap-0">
-          <div className="flex w-full flex-col items-start gap-3 lg:items-end">
-            <div className="flex w-full justify-start lg:justify-end">
+        <div className="flex w-full max-w-md flex-col items-center gap-6 lg:ml-auto lg:self-stretch lg:items-end lg:justify-between lg:gap-0">
+          <div className="flex w-full flex-col items-center gap-3 lg:items-end">
+            <div className="flex w-full justify-center lg:justify-end">
               <SocialLinks />
             </div>
           </div>
 
-          <div className="flex flex-col items-start gap-3 text-left text-xs tracking-wide text-muted-foreground lg:items-end lg:text-right">
+          <div className="flex flex-col items-center gap-3 text-center text-xs tracking-wide text-muted-foreground lg:items-end lg:text-right">
             <Link
               href="/privacy-policy"
               className="text-xs tracking-wide text-muted-foreground transition-colors hover:text-foreground"
