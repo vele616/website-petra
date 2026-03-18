@@ -11,6 +11,7 @@ const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export function NewsletterForm() {
   const [email, setEmail] = useState("");
   const [consent, setConsent] = useState(false);
+  const [consentError, setConsentError] = useState("");
   const [status, setStatus] = useState<SubmitStatus>("idle");
   const [message, setMessage] = useState("");
 
@@ -20,6 +21,13 @@ export function NewsletterForm() {
     if (status === "loading") return;
 
     const normalizedEmail = email.trim().toLowerCase();
+    const isConsentMissing = !consent;
+
+    if (isConsentMissing) {
+      setConsentError("Please check the consent box.");
+    } else {
+      setConsentError("");
+    }
 
     if (!normalizedEmail) {
       setStatus("error");
@@ -33,14 +41,15 @@ export function NewsletterForm() {
       return;
     }
 
-    if (!consent) {
+    if (isConsentMissing) {
       setStatus("error");
-      setMessage("Please confirm newsletter consent.");
+      setMessage("");
       return;
     }
 
     setStatus("loading");
     setMessage("");
+    setConsentError("");
 
     try {
       const response = await fetch("/api/newsletter", {
@@ -85,6 +94,7 @@ export function NewsletterForm() {
 
   function handleConsentChange(checked: boolean | "indeterminate") {
     setConsent(checked === true);
+    setConsentError("");
 
     if (status !== "idle") {
       setStatus("idle");
@@ -156,18 +166,27 @@ export function NewsletterForm() {
         </Button>
       </div>
 
-      <label
-        htmlFor="newsletter-consent"
-        className="-mt-2 flex w-full items-center justify-start gap-2 text-xs text-muted-foreground"
-      >
-        <Checkbox
-          id="newsletter-consent"
-          checked={consent}
-          onCheckedChange={handleConsentChange}
-          className="h-4 w-4 rounded border-border/70 data-[state=checked]:bg-foreground data-[state=checked]:text-background"
-        />
-        <span>Send me newsletters and occasional updates.</span>
-      </label>
+      <div className="-mt-2 space-y-1">
+        <div className="flex w-full items-center justify-start gap-2 text-xs text-muted-foreground">
+          <Checkbox
+            id="newsletter-consent"
+            checked={consent}
+            onCheckedChange={handleConsentChange}
+            aria-label="Send me newsletters and occasional updates."
+            className="h-4 w-4 rounded border-border/70 data-[state=checked]:bg-foreground data-[state=checked]:text-background"
+          />
+          <span>Send me newsletters and occasional updates.</span>
+        </div>
+        <p
+          role="status"
+          aria-live="polite"
+          className={`min-h-4 px-1 pt-0.5 text-left text-xs ${
+            consentError ? "text-red-500" : "text-transparent"
+          }`}
+        >
+          {consentError || "\u00A0"}
+        </p>
+      </div>
     </form>
   );
 }

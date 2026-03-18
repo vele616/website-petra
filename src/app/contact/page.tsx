@@ -68,6 +68,12 @@ export default function Contact() {
     }
   }, [agreed, consentError]);
 
+  const handleSubmitButtonClick = useCallback(() => {
+    if (!agreed) {
+      setConsentError("Please check the consent box.");
+    }
+  }, [agreed]);
+
   return (
     <section id="contact" className="scroll-mt-20 bg-background py-10 lg:py-12">
       <div className="mx-auto max-w-350 px-6 pb-0 pt-0 lg:px-10 lg:pb-0 lg:pt-0">
@@ -133,26 +139,28 @@ export default function Contact() {
                   />
                 </div>
 
-                <CustomCheckbox
-                  setAgreed={handleAgreedChange}
-                  agreed={agreed}
-                  label={
-                    "I consent to the processing of personal data for the purpose of responding to my inquiry."
-                  }
-                  id="consent"
-                />
-
-                <p
-                  aria-live="polite"
-                  className="-mt-1 h-4 text-left text-sm text-red-500"
-                >
-                  {consentError || "\u00A0"}
-                </p>
+                <div>
+                  <CustomCheckbox
+                    setAgreed={handleAgreedChange}
+                    agreed={agreed}
+                    label={
+                      "I consent to the processing of personal data for the purpose of responding to my inquiry."
+                    }
+                    id="consent"
+                  />
+                  <p
+                    aria-live="polite"
+                    className="h-4 px-1 text-left text-sm text-red-500"
+                  >
+                    {consentError || "\u00A0"}
+                  </p>
+                </div>
 
                 <div>
                   <Button
                     type="submit"
                     variant="outline"
+                    onClick={handleSubmitButtonClick}
                     disabled={isLoading}
                     className="h-11 cursor-pointer rounded-full border-border/70 bg-transparent px-5 text-xs uppercase tracking-[0.3em] text-foreground shadow-none transition-colors hover:bg-foreground hover:text-background disabled:cursor-not-allowed"
                   >

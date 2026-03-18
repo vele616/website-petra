@@ -1,4 +1,4 @@
-import { InputEvent, InvalidEvent, useCallback, useState } from "react";
+import { InvalidEvent, useCallback, useState } from "react";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
@@ -26,8 +26,8 @@ export function InputField({
 
   const handleError = useCallback(
     (e: InvalidEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      e.preventDefault();
       const field = e.currentTarget;
-      field.setCustomValidity(" ");
       if (field.validity.valueMissing) {
         setError("This field is required.");
       }
@@ -38,14 +38,9 @@ export function InputField({
     [],
   );
 
-  const resetError = useCallback(
-    (e: InputEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      const field = e.currentTarget;
-      field.setCustomValidity("");
-      setError("");
-    },
-    [],
-  );
+  const resetError = useCallback(() => {
+    setError("");
+  }, []);
 
   if (isTextArea) {
     return (
