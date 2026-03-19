@@ -11,7 +11,6 @@ type SubmitStatus = "idle" | "loading" | "error";
 
 export function NewsletterForm() {
   const pathname = usePathname();
-  const [consent, setConsent] = useState(false);
   const [status, setStatus] = useState<SubmitStatus>("idle");
 
   async function handleSubmit(e: SyntheticEvent<HTMLFormElement>) {
@@ -24,11 +23,6 @@ export function NewsletterForm() {
     const em = String(formData.get("email"));
 
     const normalizedEmail = em.trim().toLowerCase();
-
-    if (!consent) {
-      setStatus("error");
-      return;
-    }
 
     setStatus("loading");
 
@@ -57,7 +51,6 @@ export function NewsletterForm() {
       toast.success("Success!", {
         description: "Your request was sent successfully.",
       });
-      setConsent(false);
       form.reset();
     } catch (error) {
       setStatus("error");
@@ -66,14 +59,6 @@ export function NewsletterForm() {
         description:
           "There was an error subscribing to the newslatter, please try again later.",
       });
-    }
-  }
-
-  function handleConsentChange(checked: boolean | "indeterminate") {
-    setConsent(checked === true);
-
-    if (status !== "idle") {
-      setStatus("idle");
     }
   }
 
@@ -114,13 +99,11 @@ export function NewsletterForm() {
         <div className="flex w-full items-center justify-start gap-2 text-xs text-muted-foreground">
           <CustomCheckbox
             key={`newsletter-consent-${pathname}`}
-            agreed={consent}
             disabled={status === "loading"}
             id="newsletter-consent"
             isRequired={true}
             label="Send me newsletters and occasional updates."
             name="newsletter-consent"
-            setAgreed={handleConsentChange}
           />
         </div>
       </div>

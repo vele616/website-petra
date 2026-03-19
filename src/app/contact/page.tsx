@@ -5,24 +5,13 @@ import { InputField } from "@/components/InputField";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { SubmitEvent, useCallback, useEffect, useState } from "react";
+import { SubmitEvent, useCallback, useState } from "react";
 import { toast } from "sonner";
 
 export default function Contact() {
   const pathname = usePathname();
-  const [agreed, setAgreed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [consentError, setConsentError] = useState("");
-
-  const handleAgreedChange = useCallback(
-    (value: boolean) => {
-      setAgreed(value);
-      if (consentError) {
-        setConsentError("");
-      }
-    },
-    [consentError],
-  );
 
   const handleSubmit = useCallback(
     async (e: SubmitEvent<HTMLFormElement>) => {
@@ -56,7 +45,6 @@ export default function Contact() {
           description: "Your request was sent successfully.",
         });
         form.reset();
-        setAgreed(false);
         setConsentError("");
       } catch (error) {
         console.error("ERROR", error);
@@ -65,19 +53,12 @@ export default function Contact() {
             "There was an error submitting Your form, please try again later.",
         });
       } finally {
-        setAgreed(false);
         setConsentError("");
         setIsLoading(false);
       }
     },
     [consentError],
   );
-
-  useEffect(() => {
-    setAgreed(false);
-    setConsentError("");
-    setIsLoading(false);
-  }, [pathname]);
 
   return (
     <section id="contact" className="scroll-mt-20 bg-background py-10 lg:py-12">
@@ -159,13 +140,11 @@ export default function Contact() {
                 <div className="-mt-1 mb-5">
                   <CustomCheckbox
                     key={`contact-consent-${pathname}`}
-                    agreed={agreed}
                     disabled={isLoading}
                     id="consent"
                     isRequired={true}
                     label="I consent to the processing of personal data for the purpose of responding to my inquiry."
                     name="consent"
-                    setAgreed={handleAgreedChange}
                   />
                 </div>
 

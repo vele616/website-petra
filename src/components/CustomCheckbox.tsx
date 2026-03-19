@@ -3,20 +3,16 @@ import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 
 type CustomCheckboxProps = {
-  agreed: boolean;
   id: string;
   label: string;
-  setAgreed: (value: boolean) => void;
   disabled?: boolean;
   isRequired?: boolean;
   name?: string;
 };
 
 export function CustomCheckbox({
-  agreed,
   id,
   label,
-  setAgreed,
   disabled = false,
   isRequired = false,
   name,
@@ -33,22 +29,17 @@ export function CustomCheckbox({
     [],
   );
 
-  const handleChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      const field = e.currentTarget;
-      setAgreed(field.checked);
-      field.setCustomValidity("");
-      setError("");
-    },
-    [setAgreed],
-  );
+  const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    const field = e.currentTarget;
+    field.setCustomValidity("");
+    setError("");
+  }, []);
 
   return (
     <div className="flex flex-col">
       <div className="flex items-center gap-2 text-xs text-muted-foreground">
         <Input
           aria-invalid={error !== ""}
-          checked={agreed}
           className={
             "accent-white h-4 w-4 rounded border-border/70 data-[state=checked]:bg-foreground data-[state=checked]:text-background"
           }
